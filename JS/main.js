@@ -2,10 +2,14 @@ console.log("Welcome to Gambling Simulator program")
 
 const bet = 1;
 const stake = 100;
+const win = 1;
 const NumOfDays = 20;
+let array = new Array();
+let totalAmount = 0;
+let dayWon = 0;
+let dayLost = 0;
 
 winOrLose = () => {
-    let win = 1;
     let random =  Math.floor(Math.random() * 10) % 2;
     if (win == random){
         console.log("Win")
@@ -16,49 +20,43 @@ winOrLose = () => {
 winOrLose();
 
 resignGame = () =>{
-    let cash = stake;
     let win = 1;
-    let lose = 0;
-    let end = 150;
-    let start = 50;
-    let range = 50;
-    let numOfWin = 0;
-    let numOfLose = 0;
-    while(cash < end && cash > start){
-        let random =  Math.floor(Math.random() * 10) % 2;
-        if(random == win){
-            cash += bet;
-        }else{
-            cash -= bet;
+    let cash = 0;
+    let day = 1;
+    while(day <= 20){
+        while(cash < 50 && cash > -50){
+            let random =  Math.floor(Math.random() * 10) % 2;
+            if(random == win){
+                cash += bet;
+            }else{
+                cash -= bet;
+            }
         }
-    }
-    if((cash - 100) > 0){
-        numOfWin++;
-        win += 50;
-        console.log("Win");
-    }else{
-        numOfLose--;
-        lose -= 50;
-        console.log("Lose")
+        totalAmount += cash;
+        if(cash == 50){
+            dayWon++;
+            console.log("Won" + cash);
+        }else{
+            dayLost++;
+            console.log("Lose" + cash)
+        }
+        console.log("Gambler resigned day " + day + " with amount " + totalAmount);
+        array.push(totalAmount);
+        day++;
+        cash = 0;
     }
 }
 resignGame();
 
-NumOfDaysAmount = () =>{
-    let win = 1;
-    let winAmount = 0;
-    for(let day = 1; day < NumOfDays; day++){
-        let random = Math.floor(Math.random() * 10) % 2;
-        while(day < NumOfDays){
-            winAmount +=stake;
-            day++;
+totalWinOrLoses = () => {
+        if(totalAmount > 0){
+            console.log("After 20 days, player won: " + totalAmount)
+        }else{
+            console.log("After 20 days, player lost: " + totalAmount)
         }
-        console.log("Won Amount is:" + winAmount);
+        console.log("Total days lost: " + dayLost);
+        console.log("Total days won: " + dayWon);
     }
-}
-
-monthOfDay = () =>{
-
-}
-NumOfDaysAmount();
-module.export = {winOrLose, resignGame};
+totalWinOrLoses();
+ 
+module.export = {winOrLose, resignGame, totalWinOrLoses};
